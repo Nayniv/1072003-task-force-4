@@ -1,7 +1,7 @@
 # Личный проект «TaskForce»
 
 * Студент: [Tatiana](https://up.htmlacademy.ru/yii/4/user/1072003).
-* Наставник: `Неизвестно`.
+* Наставник: [Даниил Стерликов](https://htmlacademy.ru/profile/id1588317).
 
 ---
 
