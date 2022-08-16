@@ -13,10 +13,18 @@ class Task
     public const ACTION_DONE = 'done';
     public const ACTION_REFUSE = 'refuse';
 
+    private const UPDATE_STATUS = [
+        self::ACTION_CANCEL => self::STATUS_CANCEL,
+        self::ACTION_REPLY => self::STATUS_WORK,
+        self::ACTION_DONE => self::STATUS_DONE,
+        self::ACTION_REFUSE => self::STATUS_FAIL
+    ];
+
     private $customerId;
     private $executorId;
 
-    public function __construct($customerId, $executorId) {
+    public function __construct(int $customerId, int $executorId = null)
+    {
         $this->customerId = $customerId;
         $this->executorId = $executorId;
     }
@@ -24,7 +32,7 @@ class Task
     //public function getCustomerId {}
     //public function getExecutorId {}
 
-    public function getStatusesTitles()
+    public function getStatusesTitles(): array
     {
         return [
             self::STATUS_NEW=> 'Новое',
@@ -35,7 +43,7 @@ class Task
         ];
     }
 
-    public function getActionsTitles()
+    public function getActionsTitles(): array
     {
         return [
             self::ACTION_CANCEL=> 'Отменить',
@@ -45,21 +53,16 @@ class Task
         ];
     }
 
-    public function getUpdateStatus()
+    public function getUpdateStatus(string $action): string
     {
-        return [
-        self::ACTION_CANCEL => self::STATUS_CANCEL,
-        self::ACTION_REPLY => self::STATUS_WORK,
-        self::ACTION_DONE => self::STATUS_DONE,
-        self::ACTION_REFUSE => self::STATUS_FAIL
-        ];
+        return self::UPDATE_STATUS[$action] ?? null;
     }
 
-    public function getAvailableActions($userId, $status)
+    public function getAvailableActions(int $userId, string $status): array
     {
         $actions = [];
 
-        if ($userId === $this=> $customerId) {
+        if ($userId === $this-> $customerId) {
             if ($status === self::STATUS_NEW) {
                 $actions[] = self::ACTION_CANCEL;
             }
@@ -68,7 +71,7 @@ class Task
             }
         }
 
-        if ($userId === $this=> $executorId) {
+        if ($userId === $this-> $executorId) {
             if ($status === self::STATUS_NEW) {
                 $actions[] = self::ACTION_REPLY;
             }
