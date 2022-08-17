@@ -55,14 +55,14 @@ class Task
 
     public function getUpdateStatus(string $action): string
     {
-        return self::UPDATE_STATUS[$action] ?? null;
+        return self::UPDATE_STATUS[$action];
     }
 
     public function getAvailableActions(int $userId, string $status): array
     {
         $actions = [];
 
-        if ($userId === $this-> $customerId) {
+        if ($userId === $this->customerId) {
             if ($status === self::STATUS_NEW) {
                 $actions[] = self::ACTION_CANCEL;
             }
@@ -71,7 +71,7 @@ class Task
             }
         }
 
-        if ($userId === $this-> $executorId) {
+        if ($userId === $this->executorId) {
             if ($status === self::STATUS_NEW) {
                 $actions[] = self::ACTION_REPLY;
             }
