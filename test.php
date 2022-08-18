@@ -1,6 +1,7 @@
 <?php
+require_once 'vendor/autoload.php';
 
-include_once __DIR__ ."/classes/Task.php";
+use taskForce\businessLogic\Task;
 
 // Создание обработчика
 function my_assert_handler($file, $line, $code)

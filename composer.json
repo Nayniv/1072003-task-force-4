@@ -1,0 +1,16 @@
+{
+    "name": "tatiana/task-force",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "taskForce\\": "classes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Shilyakova Tatiana"
+        }
+    ],
+    "require": {}
+}
