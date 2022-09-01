@@ -4,12 +4,12 @@ CREATE DATABASE taskforce
 
 USE taskforce;
 
-CREATE TABLE category (
+CREATE TABLE categories (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE city (
+CREATE TABLE cities (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(64) NOT NULL,
   lat DECIMAL(11,8) NOT NULL,
@@ -17,45 +17,45 @@ CREATE TABLE city (
 );
 
 CREATE TABLE files (
-  id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
   url VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE user (
+CREATE TABLE users (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
-  dt_add DATETIME DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   email VARCHAR(128) UNIQUE NOT NULL,
   login CHAR(64) NOT NULL,
   password VARCHAR(255) NOT NULL,
   date_of_birth TIMESTAMP DEFAULT NULL,
   phone CHAR(11) DEFAULT NULL,
   telegram CHAR(64) DEFAULT NULL,
-  raiting INT DEFAULT NULL,
+  rating INT DEFAULT NULL,
   city_id INT NOT NULL,
   avatar_file_id INT DEFAULT NULL
 );
 
-CREATE TABLE task (
+CREATE TABLE tasks (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
-  dt_add DATETIME DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   customer_id INT NOT NULL,
   executor_id INT DEFAULT NULL,
   category_id INT NOT NULL,
   title VARCHAR(255) NOT NULL,
   description VARCHAR(1000) NOT NULL,
   budget INT UNSIGNED DEFAULT NULL,
-  dt_completion DATE DEFAULT NULL,
+  completed_at DATE DEFAULT NULL,
   city_id INT,
   file_id INT
 );
 
-CREATE TABLE responce (
+CREATE TABLE responses (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   task_id INT NOT NULL,
   executor_id INT NOT NULL,
   comment VARCHAR(255) DEFAULT NULL,
   budget INT DEFAULT NULL,
-  is_refused BOOL DEFAULT 0 NOT NULL
+  status BOOL DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE reviews (
@@ -65,30 +65,37 @@ CREATE TABLE reviews (
   comment VARCHAR(255) NULL
 );
 
-CREATE TABLE user_role (
+CREATE TABLE users_role (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
   category_id INT
 );
 
-ALTER TABLE user
-  ADD FOREIGN KEY (city_id) REFERENCES city (id);
+ALTER TABLE users
+  ADD FOREIGN KEY (city_id) REFERENCES cities (id);
+ALTER TABLE users
   ADD FOREIGN KEY (avatar_file_id) REFERENCES files (id);
 
-ALTER TABLE task
-  ADD FOREIGN KEY (city_id) REFERENCES city (id);
+ALTER TABLE tasks
+  ADD FOREIGN KEY (city_id) REFERENCES cities (id);
+ALTER TABLE tasks
   ADD FOREIGN KEY (file_id) REFERENCES files (id);
-  ADD FOREIGN KEY (customer_id) REFERENCES user (id);
-  ADD FOREIGN KEY (executor_id) REFERENCES user (id);
-  ADD FOREIGN KEY (category_id) REFERENCES category (id);
+ALTER TABLE tasks
+  ADD FOREIGN KEY (customer_id) REFERENCES users (id);
+ALTER TABLE tasks
+  ADD FOREIGN KEY (executor_id) REFERENCES users (id);
+ALTER TABLE tasks
+  ADD FOREIGN KEY (category_id) REFERENCES categories (id);
 
-ALTER TABLE responce
-  ADD FOREIGN KEY (task_id) REFERENCES task (id);
-  ADD FOREIGN KEY (executor_id) REFERENCES user (id);
+ALTER TABLE responses
+  ADD FOREIGN KEY (task_id) REFERENCES tasks (id);
+ALTER TABLE responses
+  ADD FOREIGN KEY (executor_id) REFERENCES users (id);
 
 ALTER TABLE reviews
-  ADD FOREIGN KEY (task_id) REFERENCES task (id);
+  ADD FOREIGN KEY (task_id) REFERENCES tasks (id);
 
-ALTER TABLE user_role
-  ADD FOREIGN KEY (user_id) REFERENCES user (id);
-  ADD FOREIGN KEY (category_id) REFERENCES category (id);
+ALTER TABLE users_role
+  ADD FOREIGN KEY (user_id) REFERENCES users (id);
+ALTER TABLE users_role
+  ADD FOREIGN KEY (category_id) REFERENCES categories (id);
