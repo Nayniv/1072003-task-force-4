@@ -22,3 +22,6 @@ assert($t1->getUpdateStatus(Task::ACTION_REPLY) === Task::STATUS_WORK);
 
 assert(in_array(Task::ACTION_CANCEL, $t1->getAvailableActions(1, Task::STATUS_NEW)));
 assert(in_array(Task::ACTION_REFUSE, $t1->getAvailableActions(2, Task::STATUS_WORK)));
+assert(in_array(Task::ACTION_REPLY, $t1->getAvailableActions(2, Task::STATUS_WORK)));
+assert(in_array(Task::ACTION_DONE, $t1->getAvailableActions(2, Task::STATUS_WORK)));
+assert(in_array(Task::ACTION_REFUSE, $t1->getAvailableActions(1, Task::STATUS_NEW)));

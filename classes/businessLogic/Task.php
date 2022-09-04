@@ -1,6 +1,11 @@
 <?php
 namespace taskForce\businessLogic;
 
+use ActionCancel;
+use ActionReply;
+use ActionDone;
+use ActionRefuse;
+
 class Task
 {
     public const STATUS_NEW = 'new';
@@ -59,26 +64,22 @@ class Task
         return self::UPDATE_STATUS[$action];
     }
 
-    public function getAvailableActions(int $userId, string $status): array
+    public function getAvailableActions(int $currentUserId, string $status): array
     {
         $actions = [];
 
-        if ($userId === $this->customerId) {
-            if ($status === self::STATUS_NEW) {
-                $actions[] = self::ACTION_CANCEL;
-            }
-            if ($status === self::STATUS_WORK) {
-                $actions[] = self::ACTION_DONE;
-            }
+        if ((new ActionCancel())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && $status === self::STATUS_NEW) {
+            $actions[] = new ActionCancel();
+        }
+        if ((new ActionDone())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && $status === self::STATUS_WORK) {
+            $actions[] = new ActionDone();
         }
 
-        if ($userId === $this->executorId) {
-            if ($status === self::STATUS_NEW) {
-                $actions[] = self::ACTION_REPLY;
-            }
-            if ($status === self::STATUS_WORK) {
-                $actions[] = self::ACTION_REFUSE;
-            }
+        if ((new ActionReply())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && $status === self::STATUS_NEW) {
+            $actions[] = new ActionReply();
+        }
+        if ((new ActionRefuse())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && $status === self::STATUS_WORK) {
+            $actions[] = new ActionRefuse();
         }
 
         return $actions;
