@@ -1,20 +1,14 @@
 <?php
 namespace taskForce\businessLogic;
 
-abstract class AbsractAction
+abstract class AbstractAction
 {
     protected string $name;
-    protected string $internalName;
 
     public function getName(): string
     {
         return $this->name;
     }
 
-    public function getInternalName(): string
-    {
-        return $this->internalName;
-    }
-
-    abstract public function compareUserRole(int $executorId, int $customerId, int $currentUserId): bool
+    abstract public function compareUserRole(int $executorId, int $customerId, int $currentUserId): bool;
 }
