@@ -31,9 +31,6 @@ class Task
         $this->executorId = $executorId;
     }
 
-    //public function getCustomerId {}
-    //public function getExecutorId {}
-
     public function getStatusesTitles(): array
     {
         return [
@@ -57,24 +54,24 @@ class Task
 
     public function getUpdateStatus(AbstractAction $action): string
     {
-        return self::UPDATE_STATUS[$action];
+        return self::UPDATE_STATUS[get_class($action)];
     }
 
-    public function getAvailableActions(int $currentUserId, AbstractAction $status): array
+    public function getAvailableActions(int $currentUserId, $status): array
     {
         $actions = [];
 
-        if ((new ActionCancel())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && $status === self::STATUS_NEW) {
+        if ((new ActionCancel())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_NEW)) {
             $actions[] = new ActionCancel();
         }
-        if ((new ActionDone())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && $status === self::STATUS_WORK) {
+        if ((new ActionDone())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_WORK)) {
             $actions[] = new ActionDone();
         }
 
-        if ((new ActionReply())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && $status === self::STATUS_NEW) {
+        if ((new ActionReply())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_NEW)) {
             $actions[] = new ActionReply();
         }
-        if ((new ActionRefuse())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && $status === self::STATUS_WORK) {
+        if ((new ActionRefuse())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_WORK)) {
             $actions[] = new ActionRefuse();
         }
 

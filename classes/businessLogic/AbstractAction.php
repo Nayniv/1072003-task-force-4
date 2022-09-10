@@ -5,7 +5,7 @@ abstract class AbstractAction
 {
     protected string $name;
 
-    public function getName(): string
+    public static function getName(): string
     {
         return $this->name;
     }

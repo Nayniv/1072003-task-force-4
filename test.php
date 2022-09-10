@@ -3,7 +3,6 @@ require_once 'vendor/autoload.php';
 
 use taskForce\businessLogic\Task;
 
-// Создание обработчика
 function my_assert_handler($file, $line, $code)
 {
     echo "<hr>Неудачная проверка утверждения:
@@ -12,16 +11,14 @@ function my_assert_handler($file, $line, $code)
         Код '$code'<br /><hr />";
 }
 
-// Подключение callback-функции
 assert_options(ASSERT_CALLBACK, 'my_assert_handler');
 
-// пример неудачного теста - скрипт выдаст информацию о том, какой тест провалился
 $t1 = new Task(1, 2);
-assert($t1->getUpdateStatus(Task::ACTION_CANCEL) === Task::STATUS_CANCEL);
-assert($t1->getUpdateStatus(Task::ACTION_REPLY) === Task::STATUS_WORK);
+assert($t1->getUpdateStatus(ActionCancel::class) === Task::STATUS_CANCEL);
+assert($t1->getUpdateStatus(ActionReply::class) === Task::STATUS_WORK);
 
-assert(in_array(Task::ACTION_CANCEL, $t1->getAvailableActions(1, Task::STATUS_NEW)));
-assert(in_array(Task::ACTION_REFUSE, $t1->getAvailableActions(2, Task::STATUS_WORK)));
-assert(in_array(Task::ACTION_REPLY, $t1->getAvailableActions(2, Task::STATUS_WORK)));
-assert(in_array(Task::ACTION_DONE, $t1->getAvailableActions(2, Task::STATUS_WORK)));
-assert(in_array(Task::ACTION_REFUSE, $t1->getAvailableActions(1, Task::STATUS_NEW)));
+assert(in_array(ActionCancel::class, $t1->getAvailableActions(1, Task::STATUS_NEW)));
+assert(in_array(ActionRefuse::class, $t1->getAvailableActions(2, Task::STATUS_WORK)));
+assert(in_array(ActionReply::class, $t1->getAvailableActions(2, Task::STATUS_WORK)));
+assert(in_array(ActionDone::class, $t1->getAvailableActions(2, Task::STATUS_WORK)));
+assert(in_array(ActionRefuse::class, $t1->getAvailableActions(1, Task::STATUS_NEW)));
