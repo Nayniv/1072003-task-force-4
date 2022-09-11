@@ -14,11 +14,11 @@ function my_assert_handler($file, $line, $code)
 assert_options(ASSERT_CALLBACK, 'my_assert_handler');
 
 $t1 = new Task(1, 2);
-assert($t1->getUpdateStatus(ActionCancel::class) === Task::STATUS_CANCEL);
-assert($t1->getUpdateStatus(ActionReply::class) === Task::STATUS_WORK);
+assert($t1->getUpdateStatus(new ActionCancel()) === Task::STATUS_CANCEL);
+assert($t1->getUpdateStatus(new ActionReply()) === Task::STATUS_WORK);
 
-assert(in_array(ActionCancel::class, $t1->getAvailableActions(1, Task::STATUS_NEW)));
-assert(in_array(ActionRefuse::class, $t1->getAvailableActions(2, Task::STATUS_WORK)));
-assert(in_array(ActionReply::class, $t1->getAvailableActions(2, Task::STATUS_WORK)));
-assert(in_array(ActionDone::class, $t1->getAvailableActions(2, Task::STATUS_WORK)));
-assert(in_array(ActionRefuse::class, $t1->getAvailableActions(1, Task::STATUS_NEW)));
+assert(in_array(new ActionCancel(), $t1->getAvailableActions(1, Task::STATUS_NEW)));
+assert(in_array(new ActionRefuse(), $t1->getAvailableActions(2, Task::STATUS_WORK)));
+assert(in_array(new ActionReply(), $t1->getAvailableActions(2, Task::STATUS_WORK)));
+assert(in_array(new ActionDone(), $t1->getAvailableActions(2, Task::STATUS_WORK)));
+assert(in_array(new ActionRefuse(), $t1->getAvailableActions(1, Task::STATUS_NEW)));
