@@ -62,17 +62,17 @@ class Task
         $actions = [];
 
         if ((new ActionCancel())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_NEW)) {
-            $actions[] = new ActionCancel();
+            $actions[] = ActionCancel::class;
         }
         if ((new ActionDone())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_WORK)) {
-            $actions[] = new ActionDone();
+            $actions[] = ActionDone::class;
         }
 
         if ((new ActionReply())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_NEW)) {
-            $actions[] = new ActionReply();
+            $actions[] = ActionReply::class;
         }
         if ((new ActionRefuse())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_WORK)) {
-            $actions[] = new ActionRefuse();
+            $actions[] = ActionRefuse::class;
         }
 
         return $actions;

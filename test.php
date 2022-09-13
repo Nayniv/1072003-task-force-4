@@ -1,7 +1,15 @@
 <?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 require_once 'vendor/autoload.php';
 
 use taskForce\businessLogic\Task;
+use taskForce\businessLogic\ActionCancel;
+use taskForce\businessLogic\ActionReply;
+use taskForce\businessLogic\ActionDone;
+use taskForce\businessLogic\ActionRefuse;
 
 function my_assert_handler($file, $line, $code)
 {
@@ -17,8 +25,8 @@ $t1 = new Task(1, 2);
 assert($t1->getUpdateStatus(new ActionCancel()) === Task::STATUS_CANCEL);
 assert($t1->getUpdateStatus(new ActionReply()) === Task::STATUS_WORK);
 
-assert(in_array(new ActionCancel(), $t1->getAvailableActions(1, Task::STATUS_NEW)));
-assert(in_array(new ActionRefuse(), $t1->getAvailableActions(2, Task::STATUS_WORK)));
-assert(in_array(new ActionReply(), $t1->getAvailableActions(2, Task::STATUS_WORK)));
-assert(in_array(new ActionDone(), $t1->getAvailableActions(2, Task::STATUS_WORK)));
-assert(in_array(new ActionRefuse(), $t1->getAvailableActions(1, Task::STATUS_NEW)));
+assert(in_array(ActionCancel::class, $t1->getAvailableActions(1, Task::STATUS_NEW)));
+assert(in_array(ActionRefuse::class, $t1->getAvailableActions(2, Task::STATUS_WORK)));
+assert(in_array(ActionReply::class, $t1->getAvailableActions(2, Task::STATUS_NEW)));
+assert(in_array(ActionDone::class, $t1->getAvailableActions(1, Task::STATUS_WORK)));
+assert(in_array(ActionRefuse::class, $t1->getAvailableActions(2, Task::STATUS_WORK)));

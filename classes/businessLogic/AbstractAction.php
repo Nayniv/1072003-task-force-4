@@ -3,12 +3,7 @@ namespace taskForce\businessLogic;
 
 abstract class AbstractAction
 {
-    protected string $name;
-
-    public static function getName(): string
-    {
-        return $this->name;
-    }
+    abstract public static function getName(): string;
 
     abstract public function compareUserRole(int $executorId, int $customerId, int $currentUserId): bool;
 }
