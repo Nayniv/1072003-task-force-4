@@ -1,5 +1,11 @@
 <?php
+
 namespace taskForce\businessLogic;
+
+use taskForce\businessLogic\ActionCancel;
+use taskForce\businessLogic\ActionReply;
+use taskForce\businessLogic\ActionDone;
+use taskForce\businessLogic\ActionRefuse;
 
 class Task
 {
@@ -9,16 +15,11 @@ class Task
     public const STATUS_DONE = 'done';
     public const STATUS_FAIL = 'fail';
 
-    public const ACTION_CANCEL = 'cancel';
-    public const ACTION_REPLY = 'reply';
-    public const ACTION_DONE = 'done';
-    public const ACTION_REFUSE = 'refuse';
-
     private const UPDATE_STATUS = [
-        self::ACTION_CANCEL => self::STATUS_CANCEL,
-        self::ACTION_REPLY => self::STATUS_WORK,
-        self::ACTION_DONE => self::STATUS_DONE,
-        self::ACTION_REFUSE => self::STATUS_FAIL
+        ActionCancel::class => self::STATUS_CANCEL,
+        ActionReply::class => self::STATUS_WORK,
+        ActionDone::class => self::STATUS_DONE,
+        ActionRefuse::class => self::STATUS_FAIL
     ];
 
     private $customerId;
@@ -30,55 +31,48 @@ class Task
         $this->executorId = $executorId;
     }
 
-    //public function getCustomerId {}
-    //public function getExecutorId {}
-
     public function getStatusesTitles(): array
     {
         return [
-            self::STATUS_NEW=> 'Новое',
-            self::STATUS_CANCEL=> 'Отменено',
-            self::STATUS_WORK=> 'В работе',
-            self::STATUS_DONE=> 'Выполнено',
-            self::STATUS_FAIL=> 'Провалено',
+            self::STATUS_NEW => 'Новое',
+            self::STATUS_CANCEL => 'Отменено',
+            self::STATUS_WORK => 'В работе',
+            self::STATUS_DONE => 'Выполнено',
+            self::STATUS_FAIL => 'Провалено',
         ];
     }
 
     public function getActionsTitles(): array
     {
         return [
-            self::ACTION_CANCEL=> 'Отменить',
-            self::ACTION_REPLY=> 'Откликнуться',
-            self::ACTION_DONE=> 'Выполнено',
-            self::ACTION_REFUSE=> 'Отказаться',
+            ActionCancel::class => ActionCancel::getName(),
+            ActionReply::class => ActionReply::getName(),
+            ActionDone::class => ActionDone::getName(),
+            ActionRefuse::class => ActionRefuse::getName(),
         ];
     }
 
-    public function getUpdateStatus(string $action): string
+    public function getUpdateStatus(AbstractAction $action): string
     {
-        return self::UPDATE_STATUS[$action];
+        return self::UPDATE_STATUS[get_class($action)];
     }
 
-    public function getAvailableActions(int $userId, string $status): array
+    public function getAvailableActions(int $currentUserId, $status): array
     {
         $actions = [];
 
-        if ($userId === $this->customerId) {
-            if ($status === self::STATUS_NEW) {
-                $actions[] = self::ACTION_CANCEL;
-            }
-            if ($status === self::STATUS_WORK) {
-                $actions[] = self::ACTION_DONE;
-            }
+        if ((new ActionCancel())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_NEW)) {
+            $actions[] = ActionCancel::class;
+        }
+        if ((new ActionDone())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_WORK)) {
+            $actions[] = ActionDone::class;
         }
 
-        if ($userId === $this->executorId) {
-            if ($status === self::STATUS_NEW) {
-                $actions[] = self::ACTION_REPLY;
-            }
-            if ($status === self::STATUS_WORK) {
-                $actions[] = self::ACTION_REFUSE;
-            }
+        if ((new ActionReply())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_NEW)) {
+            $actions[] = ActionReply::class;
+        }
+        if ((new ActionRefuse())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_WORK)) {
+            $actions[] = ActionRefuse::class;
         }
 
         return $actions;
