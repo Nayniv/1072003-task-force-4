@@ -1,7 +1,8 @@
 <?php
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+declare(strict_types=1);
+
+ini_set('display_errors', 'On');
+error_reporting(E_ALL);
 
 require_once 'vendor/autoload.php';
 
@@ -10,6 +11,8 @@ use taskForce\businessLogic\ActionCancel;
 use taskForce\businessLogic\ActionReply;
 use taskForce\businessLogic\ActionDone;
 use taskForce\businessLogic\ActionRefuse;
+use taskForce\businessLogic\Exceptions\ActionException;
+use taskForce\businessLogic\Exceptions\StatusException;
 
 function my_assert_handler($file, $line, $code)
 {
@@ -30,3 +33,9 @@ assert(in_array(ActionRefuse::class, $t1->getAvailableActions(2, Task::STATUS_WO
 assert(in_array(ActionReply::class, $t1->getAvailableActions(2, Task::STATUS_NEW)));
 assert(in_array(ActionDone::class, $t1->getAvailableActions(1, Task::STATUS_WORK)));
 assert(in_array(ActionRefuse::class, $t1->getAvailableActions(2, Task::STATUS_WORK)));
+
+try {
+    $t1->getUpdateStatus(new ActionCancel());
+} catch (ActionException $e) {
+    die($e->getMessage());
+};

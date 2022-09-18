@@ -6,6 +6,8 @@ use taskForce\businessLogic\ActionCancel;
 use taskForce\businessLogic\ActionReply;
 use taskForce\businessLogic\ActionDone;
 use taskForce\businessLogic\ActionRefuse;
+use taskForce\businessLogic\Exceptions\ActionException;
+use taskForce\businessLogic\Exceptions\StatusException;
 
 class Task
 {
@@ -54,12 +56,20 @@ class Task
 
     public function getUpdateStatus(AbstractAction $action): string
     {
+        if (!array_key_exists(get_class($action), $this->getActionsTitles())){
+            throw new ActionException();
+        }
+
         return self::UPDATE_STATUS[get_class($action)];
     }
 
-    public function getAvailableActions(int $currentUserId, $status): array
+    public function getAvailableActions(int $currentUserId, string $status): array
     {
         $actions = [];
+
+        if (!array_key_exists($status, $this->getStatusesTitles())){
+            throw new StatusException();
+        }
 
         if ((new ActionCancel())->compareUserRole($this->executorId, $this->customerId, $currentUserId) && ($status === self::STATUS_NEW)) {
             $actions[] = ActionCancel::class;
