@@ -1,26 +1,25 @@
 <?php
+
 namespace taskForce\businessLogic;
 
 use taskForce\businessLogic\Exceptions\SourceFileException;
 use taskForce\businessLogic\Exceptions\FileFormatException;
-use \SplFileObject;
+use SplFileObject;
 
 class DataConverter
 {
-    private  $filename;
-    private  $columns;
-    private  $fileObject;
-
+    private $filename;
+    private $columns;
+    private $fp;
     private $result = [];
-    private $error = null;
 
-    public function __construct(string $filename, array $columns)
+    public function __construct($filename, $columns)
     {
         $this->filename = $filename;
         $this->columns = $columns;
     }
 
-    public function import():void
+    public function import()
     {
         if (!$this->validateColumns($this->columns)) {
             throw new FileFormatException("Заданы неверные заголовки столбцов");
@@ -30,46 +29,45 @@ class DataConverter
             throw new SourceFileException("Файл не существует");
         }
 
-        try {
-            $this->fileObject = new SplFileObject($this->filename);
-        }
-        catch (RuntimeException $exception) {
+        $this->fp = fopen($this->filename, 'r');
+
+        if (!$this->fp) {
             throw new SourceFileException("Не удалось открыть файл на чтение");
         }
 
         $header_data = $this->getHeaderData();
-
         if ($header_data !== $this->columns) {
             throw new FileFormatException("Исходный файл не содержит необходимых столбцов");
         }
 
-        foreach ($this->getNextLine() as $line) {
+        while ($line = $this->getNextLine()) {
             $this->result[] = $line;
         }
     }
 
-    public function getData():array {
+    public function getData()
+    {
         return $this->result;
     }
 
-    private function getHeaderData():?array {
-        $this->fileObject->rewind();
-        $data = $this->fileObject->fgetcsv();
+    private function getHeaderData()
+    {
+        rewind($this->fp);
 
-        return $data;
+        return fgetcsv($this->fp);
     }
 
-    private function getNextLine():?iterable {
-        $result = null;
-
-        while (!$this->fileObject->eof()) {
-            yield $this->fileObject->fgetcsv();
+    private function getNextLine()
+    {
+        $result = false;
+        if (!feof($this->fp)) {
+            $result = fgetcsv($this->fp);
         }
 
         return $result;
     }
 
-    private function validateColumns(array $columns):bool
+    private function validateColumns($columns)
     {
         $result = true;
 
@@ -79,8 +77,7 @@ class DataConverter
                     $result = false;
                 }
             }
-        }
-        else {
+        } else {
             $result = false;
         }
 
@@ -95,7 +92,10 @@ class DataConverter
         $sqlFile = new SplFileObject($sqlFileName, 'w');
         $sqlArray = [];
 
+
         foreach ($this->getData() as $values) {
+            $queryKey = [];
+            $queryValues = [];
             if ($values !== []) {
                 foreach ($this->getHeaderData() as $key) {
                     $queryKey[] = '`' . $key . '`';
@@ -105,8 +105,6 @@ class DataConverter
                 }
                 $sqlArray[] = $sqlQuery . ' (' . implode(', ', $queryKey) . ') VALUE ' .
                     '(' . implode(', ', $queryValues) . ');' . PHP_EOL;
-                $queryKey = [];
-                $queryValues = [];
             }
         }
 
@@ -121,4 +119,3 @@ class DataConverter
         $this->dataIntoSql();
     }
 }
-

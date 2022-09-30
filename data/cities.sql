@@ -1085,4 +1085,3 @@ INSERT INTO cities (`name`, `lat`, `lng`) VALUE ("Ярцево", "55.0564933", "
 INSERT INTO cities (`name`, `lat`, `lng`) VALUE ("Ясногорск", "54.4795178", "37.689669");
 INSERT INTO cities (`name`, `lat`, `lng`) VALUE ("Ясный", "51.0369499", "59.8743256");
 INSERT INTO cities (`name`, `lat`, `lng`) VALUE ("Яхрома", "56.2889858", "37.4831016");
-INSERT INTO cities (`name`, `lat`, `lng`) VALUE ("");
