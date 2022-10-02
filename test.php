@@ -13,6 +13,9 @@ use taskForce\businessLogic\ActionDone;
 use taskForce\businessLogic\ActionRefuse;
 use taskForce\businessLogic\Exceptions\ActionException;
 use taskForce\businessLogic\Exceptions\StatusException;
+use taskForce\businessLogic\Exceptions\SourceFileException;
+use taskForce\businessLogic\Exceptions\FileFormatException;
+use taskForce\businessLogic\DataConverter;
 
 function my_assert_handler($file, $line, $code)
 {
@@ -39,3 +42,9 @@ try {
 } catch (ActionException $e) {
     die($e->getMessage());
 };
+
+$categories = new DataConverter('data/categories.csv', ['name', 'icon']);
+$categories->convertSql();
+
+$cities = new DataConverter('data/cities.csv', ['name', 'lat', 'lng']);
+$cities->convertSql();
