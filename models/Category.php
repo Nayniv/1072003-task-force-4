@@ -14,7 +14,7 @@ use Yii;
  * @property Tasks[] $tasks
  * @property UsersRole[] $usersRoles
  */
-class Categories extends \yii\db\ActiveRecord
+class Category extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -50,7 +50,7 @@ class Categories extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Tasks]].
      *
-     * @return \yii\db\ActiveQuery|TasksQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getTasks()
     {
@@ -60,19 +60,10 @@ class Categories extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UsersRoles]].
      *
-     * @return \yii\db\ActiveQuery|UsersRoleQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getUsersRoles()
     {
         return $this->hasMany(UsersRole::class, ['category_id' => 'id']);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return CategoriesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CategoriesQuery(get_called_class());
     }
 }

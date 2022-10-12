@@ -13,7 +13,7 @@ use Yii;
  * @property Tasks[] $tasks
  * @property Users[] $users
  */
-class Files extends \yii\db\ActiveRecord
+class File extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -48,7 +48,7 @@ class Files extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Tasks]].
      *
-     * @return \yii\db\ActiveQuery|TasksQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getTasks()
     {
@@ -58,19 +58,10 @@ class Files extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Users]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getUsers()
     {
         return $this->hasMany(Users::class, ['avatar_file_id' => 'id']);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return FilesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new FilesQuery(get_called_class());
     }
 }

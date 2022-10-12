@@ -15,7 +15,7 @@ use Yii;
  * @property Tasks[] $tasks
  * @property Users[] $users
  */
-class Cities extends \yii\db\ActiveRecord
+class City extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -53,7 +53,7 @@ class Cities extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Tasks]].
      *
-     * @return \yii\db\ActiveQuery|TasksQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getTasks()
     {
@@ -63,19 +63,10 @@ class Cities extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Users]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getUsers()
     {
         return $this->hasMany(Users::class, ['city_id' => 'id']);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return CitiesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CitiesQuery(get_called_class());
     }
 }

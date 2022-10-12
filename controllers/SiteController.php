@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Category;
 
 class SiteController extends Controller
 {
@@ -61,6 +62,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $category = Category::findOne(['name' => 'Курьерские услуги']);
+
+        print_r($category->name);
+
         return $this->render('index');
     }
 

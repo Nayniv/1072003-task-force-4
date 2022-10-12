@@ -27,7 +27,7 @@ use Yii;
  * @property Responses[] $responses
  * @property Reviews[] $reviews
  */
-class Tasks extends \yii\db\ActiveRecord
+class Task extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -79,7 +79,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Category]].
      *
-     * @return \yii\db\ActiveQuery|CategoriesQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getCategory()
     {
@@ -89,7 +89,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[City]].
      *
-     * @return \yii\db\ActiveQuery|CitiesQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getCity()
     {
@@ -99,7 +99,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Customer]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getCustomer()
     {
@@ -109,7 +109,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Executor]].
      *
-     * @return \yii\db\ActiveQuery|UsersQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getExecutor()
     {
@@ -119,7 +119,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[File]].
      *
-     * @return \yii\db\ActiveQuery|FilesQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getFile()
     {
@@ -129,7 +129,7 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Responses]].
      *
-     * @return \yii\db\ActiveQuery|ResponsesQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getResponses()
     {
@@ -139,19 +139,10 @@ class Tasks extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Reviews]].
      *
-     * @return \yii\db\ActiveQuery|ReviewsQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getReviews()
     {
         return $this->hasMany(Reviews::class, ['task_id' => 'id']);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return TasksQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new TasksQuery(get_called_class());
     }
 }

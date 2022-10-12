@@ -14,7 +14,7 @@ use Yii;
  *
  * @property Tasks $task
  */
-class Reviews extends \yii\db\ActiveRecord
+class Review extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -53,19 +53,10 @@ class Reviews extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Task]].
      *
-     * @return \yii\db\ActiveQuery|TasksQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getTask()
     {
         return $this->hasOne(Tasks::class, ['id' => 'task_id']);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return ReviewsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ReviewsQuery(get_called_class());
     }
 }
