@@ -46,22 +46,22 @@ class File extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Tasks]].
+     * Gets query for [[Task]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks()
+    public function getTask()
     {
-        return $this->hasMany(Tasks::class, ['file_id' => 'id']);
+        return $this->hasMany(Task::class, ['file_id' => 'id']);
     }
 
     /**
-     * Gets query for [[Users]].
+     * Gets query for [[User]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUsers()
+    public function getUser()
     {
-        return $this->hasMany(Users::class, ['avatar_file_id' => 'id']);
+        return $this->hasMany(User::class, ['avatar_file_id' => 'id']);
     }
 }
