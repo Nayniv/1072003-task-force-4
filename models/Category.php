@@ -62,8 +62,8 @@ class Category extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUsersRoles()
+    public function getExecutorCategory()
     {
-        return $this->hasMany(UserRole::class, ['category_id' => 'id']);
+        return $this->hasMany(ExecutorCategory::class, ['category_id' => 'id']);
     }
 }

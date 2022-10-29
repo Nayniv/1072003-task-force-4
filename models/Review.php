@@ -33,7 +33,7 @@ class Review extends \yii\db\ActiveRecord
             [['task_id', 'rate'], 'required'],
             [['task_id', 'rate'], 'integer'],
             [['comment'], 'string', 'max' => 255],
-            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
+            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::class, 'targetAttribute' => ['task_id' => 'id']],
         ];
     }
 

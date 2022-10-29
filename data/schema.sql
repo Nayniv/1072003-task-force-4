@@ -33,7 +33,8 @@ CREATE TABLE users (
   telegram CHAR(64) DEFAULT NULL,
   rating INT DEFAULT NULL,
   city_id INT NOT NULL,
-  avatar_file_id INT DEFAULT NULL
+  avatar_file_id INT DEFAULT NULL,
+  is_customer BOOL DEFAULT NULL
 );
 
 CREATE TABLE tasks (
@@ -66,7 +67,7 @@ CREATE TABLE reviews (
   comment VARCHAR(255) NULL
 );
 
-CREATE TABLE users_role (
+CREATE TABLE executor_categories (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
   category_id INT
@@ -96,7 +97,7 @@ ALTER TABLE responses
 ALTER TABLE reviews
   ADD FOREIGN KEY (task_id) REFERENCES tasks (id);
 
-ALTER TABLE users_role
+ALTER TABLE executor_categories
   ADD FOREIGN KEY (user_id) REFERENCES users (id);
-ALTER TABLE users_role
+ALTER TABLE executor_categories
   ADD FOREIGN KEY (category_id) REFERENCES categories (id);
