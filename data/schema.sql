@@ -48,7 +48,8 @@ CREATE TABLE tasks (
   budget INT UNSIGNED DEFAULT NULL,
   completed_at DATE DEFAULT NULL,
   city_id INT,
-  file_id INT
+  file_id INT,
+  status TINYINT(5) NOT NULL DEFAULT 1
 );
 
 CREATE TABLE responses (

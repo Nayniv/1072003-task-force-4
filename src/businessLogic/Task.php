@@ -11,11 +11,11 @@ use taskForce\businessLogic\Exceptions\StatusException;
 
 class Task
 {
-    public const STATUS_NEW = 'new';
-    public const STATUS_CANCEL = 'cancel';
-    public const STATUS_WORK = 'work';
-    public const STATUS_DONE = 'done';
-    public const STATUS_FAIL = 'fail';
+    public const STATUS_NEW = 1;
+    public const STATUS_CANCEL = 2;
+    public const STATUS_WORK = 3;
+    public const STATUS_DONE = 4;
+    public const STATUS_FAIL = 5;
 
     private const UPDATE_STATUS = [
         ActionCancel::class => self::STATUS_CANCEL,

@@ -13,5 +13,6 @@ return [
     'budget' => $faker->numberBetween(1000, 10000),
     'completed_at' => $faker->dateTimeBetween('-1 week', '+10 week')->format('Y-m-d H:i:s'),
     'city_id' => $faker->numberBetween(1, 1000),
-    'file_id' => $faker->numberBetween(1, 10)
+    'file_id' => $faker->numberBetween(1, 10),
+    'status' => $faker->numberBetween(1,5),
 ];

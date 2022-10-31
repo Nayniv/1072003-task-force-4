@@ -18,6 +18,7 @@ use Yii;
  * @property string|null $completed_at
  * @property int|null $city_id
  * @property int|null $file_id
+ * @property int $status
  *
  * @property Categories $category
  * @property Cities $city
@@ -45,7 +46,7 @@ class Task extends \yii\db\ActiveRecord
         return [
             [['created_at', 'completed_at'], 'safe'],
             [['customer_id', 'category_id', 'title', 'description'], 'required'],
-            [['customer_id', 'executor_id', 'category_id', 'budget', 'city_id', 'file_id'], 'integer'],
+            [['customer_id', 'executor_id', 'category_id', 'budget', 'city_id', 'file_id', 'status'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 1000],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::class, 'targetAttribute' => ['city_id' => 'id']],
@@ -73,6 +74,7 @@ class Task extends \yii\db\ActiveRecord
             'completed_at' => 'Completed At',
             'city_id' => 'City ID',
             'file_id' => 'File ID',
+            'status' => 'Status',
         ];
     }
 
