@@ -62,10 +62,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $category = Category::findOne(['name' => 'Курьерские услуги']);
-
-        print_r($category->name);
-
         return $this->render('index');
     }
 

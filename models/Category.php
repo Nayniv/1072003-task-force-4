@@ -48,22 +48,22 @@ class Category extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Tasks]].
+     * Gets query for [[Task]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::class, ['category_id' => 'id']);
+        return $this->hasMany(Task::class, ['category_id' => 'id']);
     }
 
     /**
-     * Gets query for [[UsersRoles]].
+     * Gets query for [[UserRole]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUsersRoles()
+    public function getExecutorCategory()
     {
-        return $this->hasMany(UsersRole::class, ['category_id' => 'id']);
+        return $this->hasMany(ExecutorCategory::class, ['category_id' => 'id']);
     }
 }
